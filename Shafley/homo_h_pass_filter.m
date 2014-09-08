@@ -1,4 +1,4 @@
-I=imread('img/psu.jpg');
+I=imread('psu.jpg');
 subplot(141),imshow(I);title('原图');
 I1=double(I);  %不支持无符号整型计算
 [M,N]=size(I1);  %计算图像的高和宽
@@ -13,14 +13,14 @@ subplot(142),mesh(x,y,z);title('球面一块');
 m=round(M/2);  %四舍五入取整
 n=round(N/2);
 hh=1.035;hl=0.7;c=3;  %初始化高斯滤波器
-for i=1;M
-    for j=1;N
-        d(i,j)=sqrt((i-m)^2+(j-n)^2)
+for i=1;M;
+    for j=1;N;
+        d(i,j)=sqrt((i-m)^2+(j-n)^2);
     end
 end
 d0=median(median(d));  %取中值
-for i=1;M
-    for j=1;N
+for i=1;M;
+    for j=1;N;
         h(i,j)=(hh-hl)*(1-exp(-c*(d(i,j)/d0)^2))+hl; %构建高斯滤波器
     end
 end

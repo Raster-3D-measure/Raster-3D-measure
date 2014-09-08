@@ -1,5 +1,5 @@
 %位面表示
-I=imread('img/psu.jpg');
+I=imread('psu.jpg');
 subplot(331),imshow(I);title('原图');
 for k=8:-1:1
     I1=255*bitget(I,k);    %获取操作数I的位置k处的位值
