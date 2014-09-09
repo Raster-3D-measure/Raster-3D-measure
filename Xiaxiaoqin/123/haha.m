@@ -1,4 +1,3 @@
-clear all;
 X=imread('forest.tif');
 f0=0;g0=0;
 f1=50;g1=50;
@@ -15,14 +14,15 @@ b3=g2-r3*f2;
 [m,n]=size(X);
 X1=double(X);
 for i=1:m
-for j=1:n
-f=X1(i,j);
-g(i,j)=0;
-if(f>=f1)&(f<=f2)
-g(i,j)=r1*f+b2;
-else if(f>=f2)&(f<=f3)
-g(i,j)=r3*f+b3;
-end
-end
+    for j=1:n
+        f=X1(i,j);
+        g(i,j)=0;
+        if(f>=f1)&(f<=f2)
+            g(i,j)=r1*f+b2;
+            else if(f>=f2)&(f<=f3)
+            g(i,j)=r3*f+b3;
+            end
+        end
+    end
 end
 figure;imshow(mat2gray(g))
