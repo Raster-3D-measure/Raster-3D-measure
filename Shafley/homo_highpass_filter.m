@@ -7,7 +7,7 @@ I1=double(I);  %不支持无符号整型计算
 v = -0.5:0.05:0.5;
 [x, y] = meshgrid(v);
 z = sqrt(1.0 - x.^2 - y.^2);
-subplot(142),mesh(x,y,z);title('球面一块');
+subplot(144),mesh(x,y,z);title('球面一块');
 
 %产生高斯型高通滤波器
 m=round(M/2);  %四舍五入取整
@@ -24,8 +24,8 @@ for i=1;M;
         h(i,j)=(hh-hl)*(1-exp(-c*(d(i,j)/d0)^2))+hl; %构建高斯滤波器
     end
 end
-[i,j]=meshgrid(1:M,1:N);   %把由向量所指定的范围转化成数组
-subplot(143),mesh(j,i,h);title('高斯高通滤波器');  %绘制三维网线图
+% [i,j]=meshgrid(1:M,1:N);   %把由向量所指定的范围转化成数组
+% subplot(143),mesh(j,i,h);title('高斯高通滤波器');  %绘制三维网线图
 
 %同态滤波
 I2=log(I1+1);  %对数变换
@@ -37,7 +37,7 @@ I4=ifft(I4);   %傅里叶反变换
 I5=exp(I4-1);   %指数变换
 I6=real(I5);   %取幅值
 I7=mat2gray(I6);   %恢复变换后的数值范围
-subplot(144),imshow(I7);title('同态滤波结果');
+subplot(142),imshow(I7);title('同态滤波结果');
 
 
 
