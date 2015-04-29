@@ -1,7 +1,7 @@
 function grayGrating()
     clear all;
     %光栅频率   
-    space = 32;
+    space = 64;
     width = 1024;
     height = 512;
     
@@ -26,8 +26,30 @@ function grayGrating()
     I3 = mat2gray(I3);
     I4 = mat2gray(I4);
     % I1 = im2uint8(mat2gray(I1));
-    figure(1), imshow(I1);
-    figure(2), imshow(I2);
-    figure(3), imshow(I3);
-    figure(4), imshow(I4);
+    
+    scrsz = get(0,'ScreenSize');
+    
+    figure('NumberTitle', 'off', 'Name', '请按任意键继续...');
+    imshow(I1),title(['光栅频率: ', num2str(space), '        ', '相移0°']);
+    set(gcf,'Position',scrsz);
+    disp('请按任意键继续...');
+    pause;
+    
+    %figure('NumberTitle', 'off', 'Name', '相移90°');
+    imshow(I2),title(['光栅频率: ', num2str(space), '        ', '相移90°']);
+    set(gcf,'Position',scrsz);
+    disp('请按任意键继续...');
+    pause;
+    
+    %figure('NumberTitle', 'off', 'Name', '相移180°');
+    imshow(I3),title(['光栅频率: ', num2str(space), '        ', '相移180°']);
+    set(gcf,'Position',scrsz);
+    disp('请按任意键继续...');
+    pause;
+    
+    %figure('NumberTitle', 'off', 'Name', '相移270°');
+    imshow(I4),title(['光栅频率: ', num2str(space), '        ', '相移270°']);
+    set(gcf,'Position',scrsz);
+    disp('请按任意键继续...');
 end
+

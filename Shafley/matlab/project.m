@@ -9,35 +9,31 @@ function project()
     
     %解包裹
     BG1 = unwrapping(X);
-    subplot(231),imshow(BG1, []);title('BG1');
+    figure('NumberTitle', 'off', 'Name', '背景相位图');
+    subplot(131),imshow(BG1, []);title('BG1');
+    
     BG2 = unwrapping(Y);
-    subplot(232),imshow(BG2, []);title('BG2');
+    subplot(132),imshow(BG2, []);title('BG2');
+    
     PIC = BG1 - BG2;
-    subplot(233),imshow(PIC, []);title('BG1 - BG2');
+    subplot(133),imshow(PIC, []);title('BG1 - BG2');
         
     OP = unwrapping(O);
-    OBJ = OP - BG1;
-    subplot(234),imshow(OBJ, []);title('OP - BG2');
+    figure('NumberTitle', 'off', 'Name', '物体相位图');
+    subplot(121),imshow(OP, []);title('OP');
+    
+    OBJ = BG1 - OP;
+    subplot(122),imshow(OBJ, []);title('BG1 - OP');
        
-    fig=figure ('Name','截取感兴趣区域','NumberTitle','off');
-    imshow(OBJ,[]);
+    E=OBJ;
+    %E=2.54*OBJ./PIC;
     
-    h=msgbox('请确认后用鼠标点取所需区域','提示','help');
-    waitfor(h);
-    
-    rect=getrect(fig);
-    w = round(rect(3));
-    h= round(rect(4));
-    rectangle('Position',[rect(1),rect(2),w,h],'Curvature',[0,0],'edgecolor','red');
-    
-    OBJ=OBJ(round(rect(2)):round(rect(2))+h,round(rect(1)):round(rect(1))+w);
-    PIC=PIC(round(rect(2)):round(rect(2))+h,round(rect(1)):round(rect(1))+w);
-    E=2.54*OBJ./PIC;
-    figure(6);imshow(E, []);
+    figure('NumberTitle', 'off', 'Name', '还原图');
+    imshow(E, []),title('还原图');
     
     [m,n]=size(E);
-    figure('NumberTitle', 'off', 'Name', 'Graph of the 3D Image');
-    mesh(E);
+    figure('NumberTitle', 'off', 'Name', '三维图');
+    mesh(E),title('三维图');
 end
 
 %生成相移正弦光栅
@@ -69,10 +65,32 @@ function phaseshiftGrating()
     I3 = mat2gray(I3);
     I4 = mat2gray(I4);
     % I1 = im2uint8(mat2gray(I1));
-    figure(1), imshow(I1);
-    figure(2), imshow(I2);
-    figure(3), imshow(I3);
-    figure(4), imshow(I4);
+    
+    scrsz = get(0,'ScreenSize');
+    
+    figure('NumberTitle', 'off', 'Name', '请按任意键继续...');
+    imshow(I1),title(['光栅频率: ', num2str(space), '        ', '相移0°']);
+    set(gcf,'Position',scrsz);
+    disp('请按任意键继续...');
+    pause;
+    
+    %figure('NumberTitle', 'off', 'Name', '相移90°');
+    imshow(I2),title(['光栅频率: ', num2str(space), '        ', '相移90°']);
+    set(gcf,'Position',scrsz);
+    disp('请按任意键继续...');
+    pause;
+    
+    %figure('NumberTitle', 'off', 'Name', '相移180°');
+    imshow(I3),title(['光栅频率: ', num2str(space), '        ', '相移180°']);
+    set(gcf,'Position',scrsz);
+    disp('请按任意键继续...');
+    pause;
+    
+    %figure('NumberTitle', 'off', 'Name', '相移270°');
+    imshow(I4),title(['光栅频率: ', num2str(space), '        ', '相移270°']);
+    set(gcf,'Position',scrsz);
+    disp('请按任意键继续...');
+    pause;
 end
 
 %相移标定  
@@ -90,6 +108,33 @@ function [X, Y, O] = phaseshiftCalibration()
     C2=im2double(imread('O2.bmp'));
     C3=im2double(imread('O3.bmp'));
     C4=im2double(imread('O4.bmp'));
+    
+    fig=figure ('Name','截取感兴趣区域','NumberTitle','off');
+    imshow(C1,[]);
+    
+    h=msgbox('请确认后用鼠标点取所需区域','提示','help');
+    waitfor(h);
+    
+    rect=getrect(fig);
+    w = round(rect(3));
+    h= round(rect(4));
+    rectangle('Position',[rect(1),rect(2),w,h],'Curvature',[0,0],'edgecolor','red');
+    
+    C1=C1(round(rect(2)):round(rect(2))+h,round(rect(1)):round(rect(1))+w);
+    C2=C2(round(rect(2)):round(rect(2))+h,round(rect(1)):round(rect(1))+w);
+    C3=C3(round(rect(2)):round(rect(2))+h,round(rect(1)):round(rect(1))+w);
+    C4=C4(round(rect(2)):round(rect(2))+h,round(rect(1)):round(rect(1))+w);
+    
+    A1=A1(round(rect(2)):round(rect(2))+h,round(rect(1)):round(rect(1))+w);
+    A2=A2(round(rect(2)):round(rect(2))+h,round(rect(1)):round(rect(1))+w);
+    A3=A3(round(rect(2)):round(rect(2))+h,round(rect(1)):round(rect(1))+w);
+    A4=A4(round(rect(2)):round(rect(2))+h,round(rect(1)):round(rect(1))+w);
+    
+    B1=B1(round(rect(2)):round(rect(2))+h,round(rect(1)):round(rect(1))+w);
+    B2=B2(round(rect(2)):round(rect(2))+h,round(rect(1)):round(rect(1))+w);
+    B3=B3(round(rect(2)):round(rect(2))+h,round(rect(1)):round(rect(1))+w);
+    B4=B4(round(rect(2)):round(rect(2))+h,round(rect(1)):round(rect(1))+w);
+       
     I1=B4-B2;
     I2=B1-B3;
     J1=A4-A2;
@@ -102,18 +147,6 @@ function [X, Y, O] = phaseshiftCalibration()
     [Y,M,N] = untiePhase( J1, J2 );
     [O,M,N] = untiePhase( O1, O2 );
     
-    %将相位差值转换成正值
-    %[M,N]=size(I1);
-%     for i=1:M
-%         for j=1:N
-%           if X(i,j)<Y(i,j)
-%               V(i,j)=X(i,j)-Y(i,j)+2*pi;
-%           else
-%              V(i,j)=X(i,j)-Y(i,j);
-%           end
-%         end
-%     end
-%     figure(5);imshow(V, []);
 end
 
 %解相位
